@@ -1,8 +1,8 @@
 import {retrieveArtistInformation} from "../apiClients/wikipediaClient";
 
 /**
- * 
- * @param wikipediaArtistId
+ * Retrieve artist description from Wikipedia
+ * @param wikipediaArtistId - artist id acceptable at Wikipedia API
  * @returns {Promise<*>}
  */
 export async function fetchArtistDescription(wikipediaArtistId) {

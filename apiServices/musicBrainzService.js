@@ -21,13 +21,13 @@ function convertToLocalFormat(musicBrainzOriginalResponse) {
 
 function getArtistIdForRelationType(musicBrainsOriginalResponse, desiredRelationName) {
     for (let relationsKey in musicBrainsOriginalResponse.relations) {
-        let node = musicBrainsOriginalResponse.relations[relationsKey];
+        let relation = musicBrainsOriginalResponse.relations[relationsKey];
 
-        if(node.type === desiredRelationName){
-            let url = node.url.resource;
-            let indexOf = url.lastIndexOf("/") + 1;
+        if(relation.type === desiredRelationName){
+            let url = relation.url.resource;
+            let indexOfArtistId = url.lastIndexOf("/") + 1;
 
-            return url.substr(indexOf);
+            return url.substr(indexOfArtistId);
         }
     }
 
