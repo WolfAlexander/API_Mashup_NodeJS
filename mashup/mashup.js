@@ -12,23 +12,16 @@ import {fetchAlbumCovers} from "../apiServices/coverArtArchiveService";
  * @returns {Promise<MashupResponse>}
  */
 export async function mashupArtistData(mbid) {
-    let musicBrainzData = await fetchMusicBrainzData(mbid);
-    let artistDescription = null;
-    let albums = [];
+    const musicBrainzData = await fetchMusicBrainzData(mbid);
+    const apiResponses = await Promise.all([getArtistDescription(musicBrainzData), getAlbums(musicBrainzData)]);
 
-    await Promise.all([getArtistDescription(musicBrainzData), getAlbums(musicBrainzData)])
-        .then(responses => {
-            artistDescription = responses[0];
-            albums = responses[1];
-        });
-
-    return new MashupResponse(mbid, artistDescription, albums);
+    return new MashupResponse({mbid, description: apiResponses[0], albums: apiResponses[1]});
 }
 
 async function getArtistDescription(musicBrainzData){
-    let wikipediaArtistId = await fetchWikipediaArtistId(musicBrainzData);
+    const wikipediaArtistId = await fetchWikipediaArtistId(musicBrainzData);
 
-    return await fetchArtistDescription(wikipediaArtistId);
+    return fetchArtistDescription(wikipediaArtistId);
 }
 
 async function fetchWikipediaArtistId(musicBrainzData){
@@ -42,21 +35,21 @@ async function fetchWikipediaArtistId(musicBrainzData){
 }
 
 async function getAlbums(musicBrainzData){
-    let albums = new HashMap();
-    let listOfAlbumIds = [];
+    const albums = new HashMap();
+    const listOfAlbumIds = [];
 
     for (let albumDataKey in musicBrainzData.albums){
-        let albumMusicBrainzData = musicBrainzData.albums[albumDataKey];
+        const albumMusicBrainzData = musicBrainzData.albums[albumDataKey];
 
-        let album = {title: albumMusicBrainzData.albumTitle, id: albumMusicBrainzData.albumId, image: null};
+        const album = {title: albumMusicBrainzData.albumTitle, id: albumMusicBrainzData.albumId, image: null};
         albums.set(albumMusicBrainzData.albumId, album);
         listOfAlbumIds.push(albumMusicBrainzData.albumId);
     }
 
-    let covers = await fetchAlbumCovers(listOfAlbumIds);
+    const covers = await fetchAlbumCovers(listOfAlbumIds);
 
     for (let cover of covers) {
-        let album = albums.get(cover.albumId);
+        const album = albums.get(cover.albumId);
         album.image = cover.coverImage;
     }
 

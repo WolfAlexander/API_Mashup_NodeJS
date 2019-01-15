@@ -6,20 +6,13 @@ import {retrieveAlbumCovers} from "../apiClients/coverArtArchiveClient";
  * @returns {Promise<Array>}
  */
 export async function fetchAlbumCovers(listOfAlbumIds) {
-    let covers = [];
-
-    await retrieveAlbumCovers(listOfAlbumIds)
-        .then(values => {
-            covers = values;
-        }).catch(error => {
-            console.log(error);
-        });
+    const covers = await retrieveAlbumCovers(listOfAlbumIds);
 
     return convertToCustomFormat(covers);
 }
 
 function convertToCustomFormat(covers) {
-    let customCoverts = [];
+    const customCoverts = [];
 
     covers.forEach(function (cover) {
         if(cover !== null){

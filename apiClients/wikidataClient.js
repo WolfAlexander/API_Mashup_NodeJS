@@ -10,7 +10,7 @@ const WIKIDATA_ADDITIONAL_URL_PARAMS = "&format=json&props=sitelinks";
  * @returns {Promise<*>}
  */
 export async function retrieveWikidataData(itemId) {
-    let requestUri = WIKIDATA_BASE_URL + itemId + WIKIDATA_ADDITIONAL_URL_PARAMS;
+    const requestUri = WIKIDATA_BASE_URL + itemId + WIKIDATA_ADDITIONAL_URL_PARAMS;
 
     console.log(new Date() + ": Making request to Wikidata API with itemId=" + itemId);
 
@@ -23,7 +23,7 @@ export async function retrieveWikidataData(itemId) {
 
         console.log(new Date() + ": Successfully received data from  Wikidata API for itemId=" + itemId);
 
-        return {type: "success", data: value};
+       return value;
     }catch (e) {
         console.log(new Date() + ": Error while retrieving data from Wikidata API with itemId=" + itemId);
         console.log(error);

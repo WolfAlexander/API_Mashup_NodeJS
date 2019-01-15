@@ -6,10 +6,8 @@ import {retrieveWikidataData} from "../apiClients/wikidataClient";
  * @returns {Promise<*>}
  */
 export async function fetchWikipediaArtistKey(wikidataArtistId) {
-    let wikidataOriginalResponse = await retrieveWikidataData(wikidataArtistId)
-        .then(wikidataResponse => {return wikidataResponse.data;});
-
-    let title = wikidataOriginalResponse.entities[wikidataArtistId].sitelinks.enwiki.title;
+    const wikidataOriginalResponse = await retrieveWikidataData(wikidataArtistId);
+    const title = wikidataOriginalResponse.entities[wikidataArtistId].sitelinks.enwiki.title;
 
     return convertToWikipediaKey(title);
 }

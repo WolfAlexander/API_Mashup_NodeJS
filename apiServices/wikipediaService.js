@@ -6,8 +6,7 @@ import {retrieveArtistInformation} from "../apiClients/wikipediaClient";
  * @returns {Promise<*>}
  */
 export async function fetchArtistDescription(wikipediaArtistId) {
-    let wikipediaData = await retrieveArtistInformation(wikipediaArtistId)
-        .then(value => {return value.data;});
+    const wikipediaData = await retrieveArtistInformation(wikipediaArtistId);
 
     return Object.values(wikipediaData.query.pages)[0].extract;
 }

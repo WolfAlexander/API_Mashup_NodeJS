@@ -6,26 +6,26 @@ import {retrieveMusicBrainzData} from "../apiClients/musicBrainzClient";
  * @returns {Promise<{albums, wikidataArtistId, wikipediaArtistId}>}
  */
 export async function fetchMusicBrainzData(mbid) {
-    let musicBrainzOriginalResponse =  await retrieveMusicBrainzData(mbid).then(musicBrainzResponse => musicBrainzResponse.data);
+    const musicBrainzOriginalResponse =  await retrieveMusicBrainzData(mbid).then(musicBrainzResponse => musicBrainzResponse.data);
 
     return convertToLocalFormat(musicBrainzOriginalResponse);
 }
 
 function convertToLocalFormat(musicBrainzOriginalResponse) {
-    let wikipediaArtistId = getArtistIdForRelationType(musicBrainzOriginalResponse, "wikipedia");
-    let wikidataArtistId = getArtistIdForRelationType(musicBrainzOriginalResponse, "wikidata");
-    let albums = getAlbumData(musicBrainzOriginalResponse);
+    const wikipediaArtistId = getArtistIdForRelationType(musicBrainzOriginalResponse, "wikipedia");
+    const wikidataArtistId = getArtistIdForRelationType(musicBrainzOriginalResponse, "wikidata");
+    const albums = getAlbumData(musicBrainzOriginalResponse);
 
     return {wikipediaArtistId: wikipediaArtistId, wikidataArtistId: wikidataArtistId, albums: albums};
 }
 
 function getArtistIdForRelationType(musicBrainsOriginalResponse, desiredRelationName) {
     for (let relationsKey in musicBrainsOriginalResponse.relations) {
-        let relation = musicBrainsOriginalResponse.relations[relationsKey];
+        const relation = musicBrainsOriginalResponse.relations[relationsKey];
 
         if(relation.type === desiredRelationName){
-            let url = relation.url.resource;
-            let indexOfArtistId = url.lastIndexOf("/") + 1;
+            const url = relation.url.resource;
+            const indexOfArtistId = url.lastIndexOf("/") + 1;
 
             return url.substr(indexOfArtistId);
         }
@@ -35,11 +35,11 @@ function getArtistIdForRelationType(musicBrainsOriginalResponse, desiredRelation
 }
 
 function getAlbumData(musicBrainsOriginalResponse) {
-    let albums = [];
-    let releaseGroups = musicBrainsOriginalResponse["release-groups"];
+    const albums = [];
+    const releaseGroups = musicBrainsOriginalResponse["release-groups"];
 
     for (let releaseGroupKey in releaseGroups){
-        let releaseGroup = releaseGroups[releaseGroupKey];
+        const releaseGroup = releaseGroups[releaseGroupKey];
 
         albums.push({albumId: releaseGroup.id, albumTitle: releaseGroup.title})
     }

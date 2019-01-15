@@ -8,13 +8,13 @@ const COVER_ART_ARCHIVE_BASE_URL = "http://coverartarchive.org/release-group/";
  * @returns {Promise<any[]>}
  */
 export async function retrieveAlbumCovers(listOfAlbumIds) {
-    let listOfRequestUrls = [];
+    const listOfRequestUrls = [];
     let numberOfUnsuccessfulRequests = 0;
 
     console.log(new Date() + ": Creating Album Cover API request URLs for " + listOfAlbumIds.length + " album ids")
 
     listOfAlbumIds.forEach((albumId) => {
-        let requestUrl = COVER_ART_ARCHIVE_BASE_URL + albumId;
+        const requestUrl = COVER_ART_ARCHIVE_BASE_URL + albumId;
         listOfRequestUrls.push(requestUrl);
     });
 
@@ -35,7 +35,7 @@ const requestAsync = function(url){
             if(err || 200 !== response.statusCode){
                 reject(response.statusCode);
             }else{
-                let albumCoverInformation = JSON.parse(body);
+                const albumCoverInformation = JSON.parse(body);
                 albumCoverInformation.album_id = url.substring(url.lastIndexOf("/")+1);
 
                 resolve(albumCoverInformation);

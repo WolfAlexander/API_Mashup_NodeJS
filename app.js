@@ -2,7 +2,7 @@ import express from 'express';
 import {mashupArtistData} from "./mashup/mashup";
 
 const app =  express();
-const SERVER_PORT = 8080;
+const SERVER_PORT = process.env.SERVER_PORT || 8080;
 
 /**
  * Listen to certain port
@@ -15,7 +15,7 @@ app.listen(SERVER_PORT, () => {
  * Get artist and album information by MBID
  */
 app.get("/api/v1/artist", (req, res) => {
-    let mbid = req.query.mbid;
+    const {mbid} = req.query;
     console.log(new Date() + ": Received request to /api/v1/artist with MBID" + mbid)
 
     mashupArtistData(mbid)

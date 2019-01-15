@@ -22,8 +22,8 @@ export async function retrieveArtistInformation(wikiArtistId) {
 
         console.log(new Date() + ": Successfully received data from Wikipedia for wikiArtistId=" + wikiArtistId);
 
-        return {type: "success", data: value};
-    }catch (e) {
+        return value;
+    }catch (error) {
         console.log(new Date() + ": Error while retrieving data from Wikipedia with wikiArtistId" + wikiArtistId);
         console.log(error);
 
