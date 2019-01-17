@@ -24,7 +24,7 @@ app.get("/api/v1/artist", (req, res) => {
             res.status(200).send(value)
         })
         .catch(error => {
-            console.log(new Date() + " " + error);
+            console.log(new Date() + " " + error.stack);
             res.status(500).send(error);
         });
 });
