@@ -27,7 +27,8 @@ function getArtistIdForRelationType(musicBrainsOriginalResponse, desiredRelation
             const indexOfArtistId = url.lastIndexOf("/") + 1;
 
             return url.substr(indexOfArtistId);
-        }).find(value => value);
+        })
+        .find(value => value);
 }
 
 function getAlbumData(musicBrainsOriginalResponse) {
