@@ -9,20 +9,18 @@ const WIKIPEDIA_BASE_URL = "https://en.wikipedia.org/w/api.php?action=query&form
  * @returns complete wikipedia response or error object
  */
 export async function retrieveArtistInformation(wikiArtistId) {
-    let requestUri = WIKIPEDIA_BASE_URL + wikiArtistId;
-
     console.log(new Date() + ": Making request to Wikipedia API for wikiArtistId=" + wikiArtistId);
 
     try{
-        const value = request({
+        const response = request({
             "method": "GET",
-            "uri": requestUri,
+            "uri": WIKIPEDIA_BASE_URL + wikiArtistId,
             "json": true
         });
 
         console.log(new Date() + ": Successfully received data from Wikipedia for wikiArtistId=" + wikiArtistId);
 
-        return value;
+        return response;
     }catch (error) {
         console.log(new Date() + ": Error while retrieving data from Wikipedia with wikiArtistId" + wikiArtistId);
         console.log(error);

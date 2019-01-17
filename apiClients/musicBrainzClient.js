@@ -11,14 +11,12 @@ const MUSIC_BRAINZ_ADDITIONAL_PARAMS = "?&fmt=json&inc=url-rels+release-groups";
  * @returns {Promise<*>}
  */
 export async function retrieveMusicBrainzData(mbid) {
-    let musicBrainzUrl = MUSIC_BRAINZ_BASE_URL + mbid + MUSIC_BRAINZ_ADDITIONAL_PARAMS;
-
     console.log(new Date() + ": Making request to MusicBrainz API with MBID=" + mbid);
 
     try {
-        const value = request({
+        const response = request({
             "method": "GET",
-            "uri": musicBrainzUrl,
+            "uri": MUSIC_BRAINZ_BASE_URL + mbid + MUSIC_BRAINZ_ADDITIONAL_PARAMS,
             "json":true,
             headers: {
                 'User-Agent': 'Request-Promise'
@@ -27,7 +25,7 @@ export async function retrieveMusicBrainzData(mbid) {
 
         console.log(new Date() + ": Successfully received data from MusicBrainz API for MBID=" + mbid);
 
-        return value;
+        return response;
     } catch (error) {
         console.log(new Date() + ": Error while retrieving data from MusicBrainz API with MBID=" + mbid);
         console.log(error);
