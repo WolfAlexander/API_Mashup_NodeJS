@@ -27,7 +27,7 @@ export async function retrieveMusicBrainzData(mbid) {
 
         console.log(new Date() + ": Successfully received data from MusicBrainz API for MBID=" + mbid);
 
-        return {type: "success", data: value};
+        return value;
     } catch (error) {
         console.log(new Date() + ": Error while retrieving data from MusicBrainz API with MBID=" + mbid);
         console.log(error);
