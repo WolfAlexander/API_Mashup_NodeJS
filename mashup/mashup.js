@@ -39,10 +39,11 @@ async function getAlbums(musicBrainzData){
 }
 
 function getAlbumsWithoutCovers(musicBrainzData) {
-    return musicBrainzData.albums.map(albumMusicBrainzData => {
-        return {title: albumMusicBrainzData.albumTitle, id: albumMusicBrainzData.albumId, image: null};
-    }).reduce((accum, currentVal) => {
-        accum[currentVal.id] = currentVal;
-        return accum;
-    }, {});
+    return musicBrainzData.albums
+        .map(albumMusicBrainzData => {
+            return {title: albumMusicBrainzData.albumTitle, id: albumMusicBrainzData.albumId, image: null};
+        }).reduce((accum, currentVal) => {
+            accum[currentVal.id] = currentVal;
+            return accum;
+        }, {});
 }
