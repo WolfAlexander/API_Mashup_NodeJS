@@ -27,11 +27,9 @@ async function getArtistDescription(musicBrainzData){
 async function fetchWikipediaArtistId(musicBrainzData){
     let wikipediaArtistId = musicBrainzData.wikipediaArtistId;
 
-    if(wikipediaArtistId === null){
-        wikipediaArtistId = await fetchWikipediaArtistKey(musicBrainzData.wikidataArtistId);
-    }
 
-    return wikipediaArtistId;
+    return  wikipediaArtistId || await fetchWikipediaArtistKey(musicBrainzData.wikidataArtistId);
+
 }
 
 async function getAlbums(musicBrainzData){
