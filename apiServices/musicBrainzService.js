@@ -6,7 +6,7 @@ import {retrieveMusicBrainzData} from "../apiClients/musicBrainzClient";
  * @returns {Promise<{albums, wikidataArtistId, wikipediaArtistId}>}
  */
 export async function fetchMusicBrainzData(mbid) {
-    const musicBrainzOriginalResponse =  await retrieveMusicBrainzData(mbid);;
+    const musicBrainzOriginalResponse =  await retrieveMusicBrainzData(mbid);
 
     return convertToLocalFormat(musicBrainzOriginalResponse);
 }
