@@ -1,5 +1,4 @@
 import {MashupResponse} from "../MashupResponse";
-import {HashMap} from "hashmap";
 import {fetchMusicBrainzData} from "../apiServices/musicBrainzService";
 import {fetchWikipediaArtistKey} from "../apiServices/wikidataService";
 import {fetchArtistDescription} from "../apiServices/wikipediaService";
@@ -25,31 +24,25 @@ async function getArtistDescription(musicBrainzData){
 }
 
 async function fetchWikipediaArtistId(musicBrainzData){
-    let wikipediaArtistId = musicBrainzData.wikipediaArtistId;
-
-
-    return  wikipediaArtistId || await fetchWikipediaArtistKey(musicBrainzData.wikidataArtistId);
-
+    return  musicBrainzData.wikipediaArtistId || await fetchWikipediaArtistKey(musicBrainzData.wikidataArtistId);
 }
 
 async function getAlbums(musicBrainzData){
-    const albums = new HashMap();
-    const listOfAlbumIds = [];
+    const albums = getAlbumsWithoutCovers(musicBrainzData);
+    const covers = await fetchAlbumCovers(Object.keys(albums));
 
-    for (let albumDataKey in musicBrainzData.albums){
-        const albumMusicBrainzData = musicBrainzData.albums[albumDataKey];
+    covers.forEach(cover => {
+        albums[cover.albumId].image = cover.coverImage;
+    });
 
-        const album = {title: albumMusicBrainzData.albumTitle, id: albumMusicBrainzData.albumId, image: null};
-        albums.set(albumMusicBrainzData.albumId, album);
-        listOfAlbumIds.push(albumMusicBrainzData.albumId);
-    }
+    return albums;
+}
 
-    const covers = await fetchAlbumCovers(listOfAlbumIds);
-
-    for (let cover of covers) {
-        const album = albums.get(cover.albumId);
-        album.image = cover.coverImage;
-    }
-
-    return albums.values();
+function getAlbumsWithoutCovers(musicBrainzData) {
+    return musicBrainzData.albums.map(albumMusicBrainzData => {
+        return {title: albumMusicBrainzData.albumTitle, id: albumMusicBrainzData.albumId, image: null};
+    }).reduce((accum, currentVal) => {
+        accum[currentVal.id] = currentVal;
+        return accum;
+    }, {});
 }
