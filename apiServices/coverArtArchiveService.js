@@ -12,13 +12,9 @@ export async function fetchAlbumCovers(listOfAlbumIds) {
 }
 
 function convertToCustomFormat(covers) {
-    const customCoverts = [];
-
-    covers.forEach(function (cover) {
-        if(cover !== null){
-            customCoverts.push({albumId: cover.album_id, coverImage: cover.images[0].image});
-        }
+    return covers
+        .filter(cover => cover) //removes undefined
+        .map(cover => {
+        return {albumId: cover.album_id, coverImage: cover.images[0].image};
     });
-
-    return customCoverts;
 }
